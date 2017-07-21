@@ -33,6 +33,8 @@
         _categories = [self.class categoriesFromJSONArray:businessDict[@"categories"]];
         YLPCoordinate *coordinate = [self.class coordinateFromJSONDictionary:businessDict[@"coordinates"]];
         _location = [[YLPLocation alloc] initWithDictionary:businessDict[@"location"] coordinate:coordinate];
+        
+        _photos = [self.class photosFromJSONArray:businessDict[@"photos"]];
     }
     return self;
 }
@@ -43,6 +45,14 @@
         [mutableCategories addObject:[[YLPCategory alloc] initWithDictionary:category]];
     }
     return mutableCategories;
+}
+    
++ (NSArray *)photosFromJSONArray:(NSArray *)photosJSON {
+    NSMutableArray *mutablePhotos = [[NSMutableArray alloc] init];
+    for (NSString *photo in photosJSON) {
+        [mutablePhotos addObject:[[NSURL alloc] initWithString:photo]];
+    }
+    return mutablePhotos;
 }
 
 + (YLPCoordinate *)coordinateFromJSONDictionary:(NSDictionary *)coordinatesDict {
